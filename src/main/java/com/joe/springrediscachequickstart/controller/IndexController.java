@@ -21,7 +21,7 @@ public class IndexController {
     }
 	@GetMapping("/all")
     public String all(Model model,String keyword) {
-		model.addAttribute("page", categoryService.findCategories(true));
+		model.addAttribute("page", categoryService.findCategories());
         return "index";
     }
 	
