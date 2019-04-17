@@ -24,6 +24,10 @@ spring.redis.port=6379
  
 ** 验证**
 
-完成上面三步后，当问到对应的方法的时候，结果就可以缓存至redis， 后面的访问注解从redis里面取。 没有其他配置的时候，默认永不过期。启动项目访问：http://localhost:9099/。 使用可视化工具查看redis，理解redis里面的key的值设置。
+完成上面三步后，当问到对应的方法的时候，结果就可以缓存至redis， 后面的访问注解从redis里面取。 没有其他配置的时候，默认永不过期。启动项目访问：[http://localhost:9099](http://localhost:9099)。 分别访问下面的URL，使用可视化工具查看redis，理解redis里面的key的值设置
+
+ - http://localhost:9099  
+ - http://localhost:9099/online
+ - http://localhost:9099/online/self
  
 > 缓存的实体必须是可以是可序列化的，即实现接口`Serializable`

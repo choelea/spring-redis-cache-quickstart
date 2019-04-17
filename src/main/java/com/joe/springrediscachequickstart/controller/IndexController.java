@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.joe.springrediscachequickstart.entity.Category;
 import com.joe.springrediscachequickstart.service.CategoryService;
 
 @Controller
@@ -15,13 +16,21 @@ public class IndexController {
 	private CategoryService categoryService;
 
 	@GetMapping
-    public String index(Model model) {
+	public String index(Model model) {
+		model.addAttribute("page", categoryService.findCategories());
+		return "index";
+	}
+	
+	@GetMapping("/online")
+    public String all(Model model) {
 		model.addAttribute("page", categoryService.findCategories(true));
         return "index";
     }
-	@GetMapping("/all")
-    public String all(Model model,String keyword) {
-		model.addAttribute("page", categoryService.findCategories());
+	
+	
+	@GetMapping("/online/{type}")
+    public String all(Model model,Category.Type type) {
+		model.addAttribute("page", categoryService.findCategories(type, true));
         return "index";
     }
 	

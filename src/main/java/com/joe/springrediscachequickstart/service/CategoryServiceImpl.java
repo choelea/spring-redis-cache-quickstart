@@ -9,13 +9,14 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.joe.springrediscachequickstart.entity.Category;
+import com.joe.springrediscachequickstart.entity.Category.Type;
 
 @Service
 public class CategoryServiceImpl implements CategoryService{
 	Logger LOG = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
 	@Override
-	@Cacheable(cacheNames="allCategory")
+	@Cacheable(cacheNames="category")
 	public List<Category> findCategories() {
 		LOG.info("Normally, there is the logic to retrieve from database");
 		List<Category> list = new ArrayList<Category>();
@@ -35,6 +36,17 @@ public class CategoryServiceImpl implements CategoryService{
 		if(isEnabled) {
 			list.add(new Category(3L, "Car"));			
 		}
+		return list;
+	}
+
+	@Override
+	@Cacheable(cacheNames="category")
+	public List<Category> findCategories(Type type, Boolean isEnabled) {
+		LOG.info("Normally, there is the logic to retrieve from database");
+		List<Category> list = new ArrayList<Category>();
+		list.add(new Category(1L, "Mobile", type));
+		list.add(new Category(2L, "Bike", type));
+		list.add(new Category(3L, "Car", type));
 		return list;
 	}
 	 
