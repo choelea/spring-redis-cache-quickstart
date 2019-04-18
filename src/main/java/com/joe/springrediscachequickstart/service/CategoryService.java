@@ -8,4 +8,6 @@ public interface CategoryService {
 	List<Category> findCategories();
 	List<Category> findCategories(Boolean isEnabled);
 	List<Category> findCategories(Category.Type type, Boolean isEnabled);
+	
+	void cleanCache();
 }

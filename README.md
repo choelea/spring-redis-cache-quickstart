@@ -31,3 +31,22 @@ spring.redis.port=6379
  - http://localhost:9099/online/self
  
 > 缓存的实体必须是可以是可序列化的，即实现接口`Serializable`
+
+## 缓存过期的两种方式
+### 手动过期
+使用注解`@CacheEvict`触发; 浏览器访问[http://localhost:9099/clear](http://localhost:9099/clear)将清除redis中的category缓存。 
+```
+@Override
+@CacheEvict(cacheNames="category")
+public void cleanCache() {
+	LOG.info("Clean all cache using annotation: @CacheEvict");		
+}
+```
+
+### 设置全局TTL(Time To Live)
+默认情况下缓存是永不过期的的；设置全局过期时间使其自动过期：
+```
+spring.cache.redis.time-to-live=3600000  // 一小时后自动过期
+```
+> https://docs.spring.io/spring-data/redis/docs/2.1.6.RELEASE/reference/html/#redis.repositories.expirations 的介绍并没有给更多的帮助， 而且spring boot并没有提高简单的可配置，细粒度的TTL的配置。 https://github.com/spring-projects/spring-boot/issues/10795
+、

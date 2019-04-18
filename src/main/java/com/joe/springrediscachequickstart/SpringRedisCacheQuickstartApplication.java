@@ -11,5 +11,5 @@ public class SpringRedisCacheQuickstartApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringRedisCacheQuickstartApplication.class, args);
 	}
-
+	
 }
