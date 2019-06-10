@@ -1,5 +1,7 @@
 package com.joe.springrediscachequickstart.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,11 +16,19 @@ import com.joe.springrediscachequickstart.service.CategoryService;
 @Controller
 @RequestMapping("/")
 public class IndexController {
+	Logger  LOG = LoggerFactory.getLogger(IndexController.class);
 	@Autowired
 	private CategoryService categoryService;
 
 	@GetMapping
 	public String index(Model model) {
+		model.addAttribute("page", categoryService.findCategories());
+		return "index";
+	}
+	
+	@GetMapping("/cache")
+	public String cachedPage(Model model) {
+		LOG.info("-------------No Cache---------------");
 		model.addAttribute("page", categoryService.findCategories());
 		return "index";
 	}
