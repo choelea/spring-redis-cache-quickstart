@@ -23,8 +23,6 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -35,11 +33,10 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
-import com.joe.springrediscachequickstart.pagecache.Header.Type;
-import com.joe.springrediscachequickstart.pagecache.FilterServletOutputStream;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.joe.springrediscachequickstart.pagecache.Header.Type;
 
 
 /**
@@ -62,11 +59,10 @@ public class GenericResponseWrapper extends HttpServletResponseWrapper implement
     private int contentLength;
     private String contentType;
     private final Map<String, List<Serializable>> headersMap = new TreeMap<String, List<Serializable>>(String.CASE_INSENSITIVE_ORDER);
-    private final List cookies = new ArrayList();
+    private final List<Cookie> cookies = new ArrayList<>();
     private ServletOutputStream outstr;
     private PrintWriter writer;
     private boolean disableFlushBuffer = true;
-    private transient HttpDateFormatter httpDateFormatter;
 
     /**
      * Creates a GenericResponseWrapper
@@ -268,48 +264,8 @@ public class GenericResponseWrapper extends HttpServletResponseWrapper implement
         super.setIntHeader(name, value);
     }
     
-    private HttpDateFormatter getHttpDateFormatter() {
-        if (this.httpDateFormatter == null) {
-            this.httpDateFormatter = new HttpDateFormatter();
-        }
-        
-        return this.httpDateFormatter;
-    }
-
-    /**
-     * Gets the headersMap.
-     * @deprecated use {@link #getAllHeaders()} instead
-     */
-    @Deprecated
-    public Collection getHeaders() {
-        final Collection<String[]> headers = new ArrayList<String[]>(this.headersMap.size());
-        
-        for (final Map.Entry<String, List<Serializable>> headerEntry : this.headersMap.entrySet()) {
-            final String name = headerEntry.getKey();
-            for (final Serializable value : headerEntry.getValue()) {
-                final Type type = Header.Type.determineType(value.getClass());
-                switch (type) {
-                    case STRING:
-                        headers.add(new String[]{name, (String)value});
-                    break;
-                    case DATE:
-                        final HttpDateFormatter localHttpDateFormatter = this.getHttpDateFormatter();
-                        final String formattedValue = localHttpDateFormatter.formatHttpDate(new Date((Long)value));
-                        headers.add(new String[]{name, formattedValue});
-                    break;
-                    case INT:
-                        headers.add(new String[]{name, ((Integer)value).toString()});
-                    break;
-                    default: 
-                        throw new IllegalArgumentException("No mapping for Header.Type: " + type);
-                }
-            }
-        }
-        
-        return Collections.unmodifiableCollection(headers);
-    }
-
     
+
     /**
      * @return All of the headersMap set/added on the response
      */
@@ -350,7 +306,7 @@ public class GenericResponseWrapper extends HttpServletResponseWrapper implement
     /**
      * Gets all the cookies.
      */
-    public Collection getCookies() {
+    public Collection<Cookie> getCookies() {
         return cookies;
     }
 

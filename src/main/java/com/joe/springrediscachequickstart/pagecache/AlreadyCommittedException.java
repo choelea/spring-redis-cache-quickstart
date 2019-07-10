@@ -33,6 +33,11 @@ package com.joe.springrediscachequickstart.pagecache;
 public class AlreadyCommittedException extends ResponseHeadersNotModifiableException {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4870230583158359724L;
+
+	/**
      * Constructor for the exception
      */
     public AlreadyCommittedException() {
