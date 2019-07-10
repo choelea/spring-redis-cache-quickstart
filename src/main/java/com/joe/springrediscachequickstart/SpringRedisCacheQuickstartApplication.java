@@ -18,14 +18,6 @@ public class SpringRedisCacheQuickstartApplication {
 		SpringApplication.run(SpringRedisCacheQuickstartApplication.class, args);
 	}
 
-//	@Bean
-//	public FilterRegistrationBean<PageCacheFilter> pageStringCacheFilter(CacheManager cacheManager) {
-//		FilterRegistrationBean<PageCacheFilter> filterRegBean = new FilterRegistrationBean<>();
-//		filterRegBean.setFilter(new PageCacheFilter(cacheManager));
-//		filterRegBean.addUrlPatterns("/cache");
-//		filterRegBean.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
-//		return filterRegBean;
-//	}
 	@Bean
 	public FilterRegistrationBean<SimplePageCachingFilter> pageCacheFilter(CacheManager cacheManager) {
 		FilterRegistrationBean<SimplePageCachingFilter> filterRegBean = new FilterRegistrationBean<>();
