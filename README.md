@@ -49,4 +49,10 @@ public void cleanCache() {
 spring.cache.redis.time-to-live=3600000  // 一小时后自动过期
 ```
 > https://docs.spring.io/spring-data/redis/docs/2.1.6.RELEASE/reference/html/#redis.repositories.expirations 的介绍并没有给更多的帮助， 而且spring boot并没有提高简单的可配置，细粒度的TTL的配置。 https://github.com/spring-projects/spring-boot/issues/10795
-、
+```
+
+## 页面级的缓存
+一般情况下spring 的缓存都用在了Entity或者DTO等业务层面。 如果想要缓存整个页面，改如何操作呢？这里结合https://github.com/choelea/spring-page-caching 这个组件实现页面级别的缓存。
+页面级别的缓存通过Filter在请求到达页面之前就返回相关结果。 通过访问`http://localhost:9099/cache` 可以测试页面缓存的效果。
+
+关键实现在于`com.joe.springrediscachequickstart.pagecache.SimplePageCachingFilter`。 
